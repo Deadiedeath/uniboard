@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>login page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/import_login.css}"/>
+
+</head>
+
+<body>
+<div id="content">
+	<div class="wrap">
+		<div class="txt">
+			<h3>로그인 페이지</h3>
+		<p th:text="${status}"></p>
+		</div>
+		
+		<div class="login_box">
+			<form method="post" action = "/user/logincheck" id="loginForm">
+				<ul>
+					<li class="fl">
+						<ul>
+							<li>
+								<label for = "login_id">아이디</label>
+								<input type = "text" name = "id" class = "id" id="login_id">
+							</li>
+							<li class="mt14">
+								<label for="login_pwd">비밀번호</label>
+								<input type = "password" name = "pwd" class = "pwd" id="login_pwd">
+							</li>
+						</ul>
+					</li>
+					<li><button type = "submit" class="btn_login">로그인</button></li>
+				</ul>
+			</form>
+		</div>
+		
+		<div class = "btn_box">
+			<button onclick = "location.href='/user/userjoin'" class="btn_join">회원가입</button>
+		</div>
+		
+	</div>
+	
+	
+	
+
+	
+
+</div>
+</body>
+<script th:inline="javascript">
+
+	let status = [[${status}]]
+	
+	if(status=="로그인 실패"){
+		alert(status)
+	}
+	else if(status=="관리자의 승인이 필요합니다"){
+		alert(status)
+	}
+	
+	
+</script>
+</html>

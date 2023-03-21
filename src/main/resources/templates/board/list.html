@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>게시판</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/import.css}"/>
+</head>
+<body>
+<!--[s] HEADER -->
+<div id="header">
+	<h1><img src="/img/ubi_logo_2_2.png" alt="유비 상단로고" /></h1>
+	<nav>
+		<ul>
+			<li><a th:href="|@{/board/list}|" >게시판</a></li>
+			<li><a th:href="|@{/weather/page}|">현재 날씨</a></li>
+			<li th:if="${session.loginfo.level == 2}"><a th:href="|@{/manager/manager}|" >관리자 페이지</a></li>
+			<li><a th:href="|@{/user/out}|" >회원 탈퇴</a></li>
+			<li><a th:href="|@{/user/logout}|" >로그아웃</a></li>
+		</ul>
+	</nav>
+</div>
+<!--[e] HEADER //-->
+
+<div id ="content">
+	<div class = "top_img">
+		<p>게시판</p>	
+	</div>
+	
+	<div class = "wrap">
+		<div class = "mt50 text">
+			<form class = "t_center" method = "get" action ="/board/list">
+				<select name = "type">
+					<option value = "id" th:selected = "${pageRequestDTO.type} == id">작성자</option>
+					<option value = "content" th:selected = "${pageRequestDTO.type} == content">내용</option>
+					<option value = "title" th:selected = "${pageRequestDTO.type} == title">제목</option>
+				</select>
+				<input type = "text" name = "keyword" th:value ="${pageRequestDTO.keyword}">
+				<button type = "submit" class = "in_btn_blue">검색하기</button>
+			</form>
+			<table cellpadding ="0" cellspacing = "0" class = "mt39">
+				<colgroup>
+					<col width = "10%">
+					<col width = "30%">
+					<col width = "50%">
+					<col width ="*">
+				</colgroup>
+				<tr>
+					<td>번호</td>
+					<td>제목</td>
+					<td>내용</td>
+					<td>작성자</td>
+				</tr>
+				
+				<tbody th:with="link = ${pageRequestDTO.getLink()}">
+				
+				<tr th:each="dto : ${board.dtoList}" >
+					<td th:text="${dto.num}"></td>
+					
+					<td>
+					<tblock th:each = "count : ${count}">
+						<a th:if = "${count.count == 0 && count.num == dto.num}" th:href="|@{/board/read(num=${dto.num})}&${link}|">[[${dto.title}]]</a>
+						<a th:if = "${count.count != 0 && count.num == dto.num}" th:href="|@{/board/read(num=${dto.num})}&${link}|">[[${dto.title}]] ([[${count.count}]])</a>
+					</tblock>
+					</td>
+					
+					<td th:text="${dto.content}"></td>
+					<td th:text="${dto.id}"></td>
+				</tr>
+			</table>
+		
+			<div class = "t_center pagination">
+				<form action = "/board/list" method="get" class ="actual">
+					<input type = "hidden" name ="size" th:value="${pageRequestDTO.size}">
+					<input type = "hidden" name ="keyword" th:value="${pageRequestDTO.keyword}">
+					<input type = "hidden" name ="type" th:value="${pageRequestDTO.type}">
+				</form>
+                        <ul>
+				
+                            <li th:if="${board.prev}">
+                                <a class="page-link" th:data-num="${board.start -1}">Previous</a>
+                            </li>
+
+                            <th:block th:each="i: ${#numbers.sequence(board.start, board.end)}">
+                                <li th:class="${board.page == i}?'page-item active':'page-item'" >
+                                    <a class="page-link"  th:data-num="${i}">[[${i}]]</a>
+                                </li>
+                            </th:block>
+
+                            <li class="page-item" th:if="${board.next}">
+                                <a class="page-link"  th:data-num="${board.end + 1}">Next</a>
+                            </li>
+                        </ul>
+        	</div>
+			
+			<div class ="btn mt50 t_center">
+				<button class="btn_blue" onclick = "location.href='/board/register'">작성하기</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script th:inline="javascript">
+	
+	document.querySelector(".pagination").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+		
+		const target = e.target
+		
+		if(target.tagName !== 'A') {
+            return
+        }
+		
+		const num = target.getAttribute("data-num")
+		const formObj = document.querySelector(".actual")
+		formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+		
+		formObj.submit()
+		
+	}, false)
+	
+
+
+</script>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>날씨</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/import.css}"/>
+</head>
+<body>
+
+<!--[s] HEADER -->
+<div id="header">
+	<h1><img src="/img/ubi_logo_2_2.png" alt="유비 상단로고" /></h1>
+	<nav>
+		<ul>
+			<li><a th:href="|@{/board/list}|" >게시판</a></li>
+			<li><a th:href="|@{/weather/page}|">현재 날씨</a></li>
+			<li th:if="${session.loginfo.level == 2}"><a th:href="|@{/manager/manager}|" >관리자 페이지</a></li>
+			<li><a th:href="|@{/user/out}|" >회원 탈퇴</a></li>
+			<li><a th:href="|@{/user/logout}|" >로그아웃</a></li>
+		</ul>
+	</nav>
+</div>
+<!--[e] HEADER //-->
+
+<div id = "content">
+	<div class = "top_img">
+		<p>현재 날씨</p>
+	</div>
+	
+	<div class ="wrap">
+		<div class = "mt50 text">
+			<h3>지역 : 구로구</h3>
+			<p class="bullet01 mt20">날짜 : [[${weather.date}]] / 기준 시간 : [[${weather.time}]]</p>
+			<p class="bullet01 mt20">강수 형태 : [[${weather.PTY}]]</p>
+			<p class="bullet01 mt20">습도 : [[${weather.REH}]]</p>
+			<p class="bullet01 mt20">온도 : [[${weather.T1H}]]</p>
+		</div>
+	</div>
+</div>
+
+
+
+</body>
+</html>
