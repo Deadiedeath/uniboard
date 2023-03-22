@@ -60,7 +60,7 @@
 					<tr>
 						<th>아이디</th>
 						<td>
-							<input type = "text" name = "id" class = "id_input" oninput="handleOnInput(this)"> <!-- oninput="handleOnInput(this)"> -->
+							<input type = "text" name = "id" class = "id_input" oninput="handleOnInput(this)" maxlength="15"> <!-- oninput="handleOnInput(this)"> -->
 							<span class="id_input_re_1" style="display:none;">사용 가능한 아이디입니다.</span>
 							<span class="id_input_re_2" style="display:none;">아이디가 이미 존재합니다.</span>
 							<span class="id_input_re_3" style="display:none;">아이디는 3자 이상 입력하세요.</span>
@@ -69,7 +69,7 @@
 					<tr>
 						<th>비밀번호</th>
 						<td>
-						<input type = "password" name = "pwd" class = "pwd">
+						<input type = "password" name = "pwd" class = "pwd" maxlength="15">
 						<span class="pwd_input_2" style="display:none;">비밀번호는 4자 이상입니다</span>
 						</td>
 						
@@ -77,7 +77,7 @@
 					<tr> 
 						<th>비밀번호 재입력</th>
 						<td>
-							<input type = "password" name = "pwd2" class = "pwd2" disabled="disabled">
+							<input type = "password" name = "pwd2" class = "pwd2" disabled="disabled" maxlength="15">
 							<span class="pwd_input_1" style="display:none;">비밀번호 확인</span>
 							<span class="pwd_input_3" style="display:none;">비밀번호가 틀립니다</span>
 						</td>
@@ -105,25 +105,31 @@
 
 	let idcheck = false;
 	let pwdcheck = false;
-	const korean = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g; 
 	
 	
- 	function handleOnInput(e)  {//영어 숫자만 입력
+	
+  	function handleOnInput(e)  {//영어 숫자만 입력
+  		const korean = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g; 
+  		const symbol = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
+ 		
 		if(korean.test(e.value)){
 			alert("아이디는 영어 및 숫자만 입력 가능합니다.")
 			e.value = e.value.replace(/[^A-Za-z0-9]/g, '')
-			
 		}
-			
-	} 
+		else if(symbol.test(e.value)){
+			alert("아이디에 특수문자는 사용할 수 없습니다")
+			e.value = e.value.replace(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g, '')
+		}
+	}
+ 	
 	
 	//아이디 중복 체크
 	$('.id_input').on("propertychange change keyup paste input", function(){
 
 		let memberId = $('.id_input').val()
 		let data = {memberId : memberId}
-		
 
+		
 		if(memberId.length <3){ //아이디가 3자 미만인 경우
 			$('.id_input_re_1').css("display", "none");
 			$('.id_input_re_2').css("display", "none");

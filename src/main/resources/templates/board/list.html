@@ -7,6 +7,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
 <link rel="stylesheet" type="text/css" th:href="@{/css/import.css}"/>
 </head>
+<style>
+
+
+
+.active{
+	color : red;
+}
+
+</style>
 <body>
 <!--[s] HEADER -->
 <div id="header">
@@ -84,7 +93,7 @@
 
                             <th:block th:each="i: ${#numbers.sequence(board.start, board.end)}">
                                 <li th:class="${board.page == i}?'page-item active':'page-item'" >
-                                    <a class="page-link"  th:data-num="${i}">[[${i}]]</a>
+                                    <a class="page-link"  th:data-num="${i}">[[${i}]]  </a>  
                                 </li>
                             </th:block>
 

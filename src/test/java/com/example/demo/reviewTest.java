@@ -114,17 +114,17 @@ public class reviewTest {
 //		log.info(check);
 //	}
 //
-//	@Test
-//	public void boardinsert() {
-//		for(int i = 0; i < 10; i++ ) {
-//			Board board = Board.builder()
-//					.id("유저"+i)
-//					.title("제목..."+i)
-//					.content("내용...."+i)
-//					.build();
-//			boardRepository.save(board);
-//		}
-//	}
+	@Test
+	public void boardinsert() {
+		for(int i = 0; i < 80; i++ ) {
+			Board board = Board.builder()
+					.id("유저"+i)
+					.title("제목..."+i)
+					.content("내용...."+i)
+					.build();
+			boardRepository.save(board);
+		}
+	}
 //	
 //	@Test
 //	public void boardfind() {
@@ -202,11 +202,11 @@ public class reviewTest {
 //				.level(0).build();
 //		log.info(dto);
 //	}
-	
-	@Test
-	public void replyCount() {
-		log.info(boardService.replyCount());
-		
-	}
-	
+//	
+//	@Test
+//	public void replyCount() {
+//		log.info(boardService.replyCount());
+//		
+//	}
+//	
 }
